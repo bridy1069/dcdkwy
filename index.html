@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f6fb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="背单词">
+<meta name="description" content="晓艳四级高频词 · 每日打卡，间隔重复记忆，手机电脑都能用">
+<title>晓艳四级高频词 · 每日打卡</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%234b6cf5'/><path d='M28 34h16v32H28z M56 34h16v32H56z' fill='none' stroke='white' stroke-width='5'/></svg>">
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <div class="ttl" id="topTitle">今日打卡</div>
+    <div class="grow"></div>
+    <button class="icon-btn" id="topSpeak" title="发音" onclick="(function(){try{speechSynthesis.cancel()}catch(e){}})()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- ============ 首页 ============ -->
+    <section class="page on" data-page="home">
+      <div class="hero">
+        <div class="row">
+          <div style="flex:1">
+            <div class="greet" id="homeGreet">今天也要记住新词</div>
+            <div class="big" id="homeBig">准备开始</div>
+            <div class="sub" id="homeSub"></div>
+          </div>
+          <div class="ring">
+            <svg width="96" height="96" viewBox="0 0 96 96">
+              <circle cx="48" cy="48" r="40" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="7"/>
+              <circle id="ringFg" cx="48" cy="48" r="40" fill="none" stroke="#fff" stroke-width="7"
+                stroke-linecap="round" stroke-dasharray="0 251"/>
+            </svg>
+            <div class="lbl" id="ringPct">0%</div>
+          </div>
+        </div>
+        <button class="hero-btn" id="startBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M8 5v14l11-7z"/></svg>
+          <span id="startBtnText">开始今日学习</span>
+        </button>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="n" id="stStreak">0</div><div class="t">连续打卡</div></div>
+        <div class="stat"><div class="n" id="stLearned">0</div><div class="t">已学单词</div></div>
+        <div class="stat"><div class="n" id="stMaster">0</div><div class="t">已掌握</div></div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <div style="font-weight:800;flex:0 0 auto">本月打卡</div>
+          <div style="font-size:12px;color:var(--sub);text-align:right" id="calSub"></div>
+        </div>
+        <div class="cal" id="cal"></div>
+      </div>
+      <div class="sec-title">快捷入口</div>
+      <div class="card tight">
+        <div class="item" id="reviewBtn">
+          <div class="ic" style="background:var(--warn-soft);color:var(--warn)">↻</div>
+          <div class="txt"><div class="t1">复习到期单词</div><div class="t2">按记忆曲线，今天该复习的都在这</div></div>
+          <div class="go">›</div>
+        </div>
+        <div class="item" id="newBtn">
+          <div class="ic">＋</div>
+          <div class="txt"><div class="t1">只学新词</div><div class="t2">跳过复习，直接学当天的新词</div></div>
+          <div class="go">›</div>
+        </div>
+      </div>
+
+      <div class="tipbox" style="margin-top:16px">
+        <span class="e">💡</span>
+        <span><b>怎么记最有效：</b>同一个词今天记住不算记住，它在第 1、3、7、15 天各出现一次，才算真的进了长期记忆。所以"复习"比"学新词"更重要，别贪多。</span>
+      </div>
+      <div style="height:16px"></div>
+    </section>
+
+    <!-- ============ 词库 ============ -->
+    <section class="page" data-page="lib">
+      <div class="searchbar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="libSearch" type="search" placeholder="搜索单词或中文释义" autocomplete="off">
+      </div>
+      <div class="seg" id="libFilter" style="margin-bottom:14px;overflow-x:auto">
+        <button data-f="all" class="on">全部</button>
+        <button data-f="new">未学</button>
+        <button data-f="learn">学习中</button>
+        <button data-f="master">已掌握</button>
+        <button data-f="wrong">错词</button>
+        <button data-f="star">收藏</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:0 4px 10px">
+        <div style="font-size:12px;color:var(--sub);font-weight:700" id="libCount"></div>
+        <div style="font-size:11.5px;color:var(--sub)">点任意词看记忆卡</div>
+      </div>
+      <div id="libBody"></div>
+      <div style="height:16px"></div>
+    </section>
+
+    <!-- ============ 统计 ============ -->
+    <section class="page" data-page="stats">
+      <div id="statsBody"></div>
+      <div style="height:16px"></div>
+    </section>
+
+    <!-- ============ 我的 ============ -->
+    <section class="page" data-page="me">
+      <div id="meBody"></div>
+      <div style="height:16px"></div>
+    </section>
+
+  </main>
+
+  <!-- 底部导航 -->
+  <nav class="tabbar">
+    <div class="tabbar-inner">
+      <button class="tab on" data-tab="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/></svg>
+        打卡
+      </button>
+      <button class="tab" data-tab="lib">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v16H6.5A2.5 2.5 0 0 0 4 20.5v-16Z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>
+        词库
+      </button>
+      <button class="tab" data-tab="stats">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>
+        统计
+      </button>
+      <button class="tab" data-tab="me">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        我的
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- 学习会话 -->
+<div class="study-wrap" id="study">
+  <div class="study-head">
+    <button class="icon-btn" id="sClose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <div class="prog">
+      <div class="bar"><i id="sBar" style="width:0%"></i></div>
+      <div class="cnt" id="sCnt"></div>
+    </div>
+    <button class="icon-btn" id="sSpeak">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+    </button>
+  </div>
+  <div class="study-body" id="sBody"></div>
+  <div class="study-foot" id="sFoot"></div>
+</div>
+
+<!-- 完成 / 详情 -->
+<div class="done-wrap" id="done"></div>
+
+<div class="toast" id="toast"></div>
+<div class="kbd-hint">空格 显示释义 · 1 忘了 · 2 模糊 · 3 记得</div>
+
+<script src="data/words.min.js"></script>
+<script src="app.js"></script>
+<script>
+  // 注册离线缓存（file:// 打开时自动跳过）
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
